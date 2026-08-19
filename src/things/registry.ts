@@ -31,7 +31,7 @@ export const things: Thing[] = [
   { id: "005", title: "egg",                     date: "2025-04-03", category: "???",           scale: "micro",  status: "complete" },
   { id: "006", title: "rain machine",            date: "2025-04-18", category: "atmospheric",   scale: "small",  status: "complete" },
   { id: "007", title: "bad photocopier",         date: "2025-04-26", category: "image tool",    scale: "small",  status: "complete" },
-  { id: "008", title: "infinite staircase",      date: "2025-05-09", category: "3d",            scale: "large",  status: "planned"  },
+  { id: "008", title: "infinite staircase",      date: "2025-05-09", category: "3d",            scale: "large",  status: "complete" },
   { id: "009", title: "bubble wrap",             date: "2025-05-14", category: "satisfying",    scale: "small",  status: "planned"  },
   { id: "010", title: "2004 webcam",             date: "2025-05-31", category: "camera",        scale: "small",  status: "planned"  },
   { id: "011", title: "falling words",           date: "2025-06-08", category: "typography",    scale: "small",  status: "planned"  },

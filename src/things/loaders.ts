@@ -20,6 +20,7 @@ export const loaders: Record<string, () => Promise<{ default: ComponentType }>> 
   "005": () => import("./005"),
   "006": () => import("./006"),
   "007": () => import("./007"),
+  "008": () => import("./008"),
 };
 
 if (process.env.NODE_ENV !== "production") {

@@ -1,0 +1,53 @@
+.stage {
+  position: fixed;
+  inset: 0;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.stage canvas {
+  display: block;
+}
+
+/* the floor number, which only matters if you are counting */
+.floor {
+  position: fixed;
+  bottom: clamp(1.5rem, 4vw, 2.5rem);
+  right: clamp(1.5rem, 4vw, 2.5rem);
+  z-index: 20;
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.2em;
+  color: var(--text-dim);
+  pointer-events: none;
+  animation: floorIn 2.6s ease-out forwards;
+}
+
+@keyframes floorIn {
+  0% {
+    opacity: 0;
+  }
+  16% {
+    opacity: 0.85;
+  }
+  70% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 0.16;
+  }
+}
+
+.prompt {
+  position: fixed;
+  bottom: clamp(1.5rem, 4vw, 2.5rem);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 20;
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-size: 0.64rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  pointer-events: none;
+}
