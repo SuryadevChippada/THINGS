@@ -1,0 +1,105 @@
+.stage {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 4.5rem 1.5rem 3rem;
+  overflow: auto;
+}
+
+/* a small box that has been in a cupboard for a while */
+.box {
+  display: flex;
+  flex-direction: column;
+  gap: 1.6rem;
+  padding: clamp(1.2rem, 4vw, 2rem);
+  border-radius: 8px;
+  background: linear-gradient(180deg, #26241f, #1a1917);
+  box-shadow:
+    0 1px 0 rgba(255, 236, 200, 0.08) inset,
+    0 -18px 40px rgba(0, 0, 0, 0.4) inset,
+    0 26px 54px -30px rgba(0, 0, 0, 0.95);
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+}
+
+.knobs {
+  display: flex;
+  gap: clamp(0.7rem, 2.5vw, 1.5rem);
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.knob {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+}
+
+/* vertical faders — a knob is a lie on a screen anyway */
+.knob input {
+  appearance: slider-vertical;
+  writing-mode: vertical-lr;
+  direction: rtl;
+  width: 20px;
+  height: 92px;
+  accent-color: var(--accent);
+  cursor: pointer;
+}
+
+.knobLabel {
+  font-size: 0.52rem;
+  letter-spacing: 0.16em;
+  color: #8a8177;
+}
+
+.keys {
+  display: flex;
+  gap: 4px;
+  justify-content: center;
+}
+
+.key {
+  appearance: none;
+  width: clamp(24px, 6vw, 34px);
+  height: clamp(84px, 18vw, 108px);
+  border: 0;
+  border-radius: 0 0 4px 4px;
+  background: linear-gradient(180deg, #ded7cb, #a9a298);
+  box-shadow: 0 3px 0 #6d675f;
+  cursor: pointer;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding-bottom: 8px;
+  transition:
+    transform 0.05s ease,
+    background 0.12s ease;
+}
+
+.key span {
+  font-size: 0.5rem;
+  letter-spacing: 0.1em;
+  color: #4b463f;
+  text-transform: uppercase;
+}
+
+.key:hover {
+  background: linear-gradient(180deg, #e8e1d5, #b5aea3);
+}
+
+.keyOn {
+  background: linear-gradient(180deg, var(--accent-hover), var(--accent-muted));
+  box-shadow: 0 1px 0 #59392a;
+  transform: translateY(2px);
+}
+
+.hint {
+  margin: 0;
+  text-align: center;
+  font-size: 0.54rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #6f675e;
+}
