@@ -3,8 +3,7 @@
   inset: 0;
   display: grid;
   place-items: center;
-  background: radial-gradient(120% 90% at 50% 25%, #1c1a17, #0b0a09 75%);
-  color: #ded6c8;
+  color: var(--text);
   font-family: var(--font-geist-mono), ui-monospace, monospace;
   overflow: auto;
   padding: 4rem 1.5rem 3rem;
@@ -24,9 +23,9 @@
   aspect-ratio: 4 / 3;
   border-radius: 3px;
   overflow: hidden;
-  background: #0e0d0c;
+  background: var(--bg-soft);
   box-shadow:
-    0 0 0 1px rgba(222, 214, 200, 0.12),
+    0 0 0 1px var(--line),
     0 30px 60px -30px rgba(0, 0, 0, 0.9);
 }
 
@@ -44,7 +43,7 @@
   display: grid;
   place-items: center;
   font-size: clamp(4rem, 14vw, 7rem);
-  color: #f5efe3;
+  color: var(--text);
   text-shadow: 0 4px 30px rgba(0, 0, 0, 0.6);
   pointer-events: none;
 }
@@ -72,9 +71,9 @@
 
 .button {
   appearance: none;
-  border: 1px solid rgba(222, 214, 200, 0.28);
+  border: 1px solid var(--line);
   background: transparent;
-  color: #ded6c8;
+  color: var(--text-soft);
   font: inherit;
   font-size: 0.7rem;
   letter-spacing: 0.18em;
@@ -89,9 +88,9 @@
 }
 
 .button:hover:not(:disabled) {
-  color: #10100f;
-  background: #d8a273;
-  border-color: #d8a273;
+  color: #14100d;
+  background: var(--accent);
+  border-color: var(--accent);
 }
 
 .button:disabled {
@@ -110,13 +109,13 @@
   font-size: 0.62rem;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: #7d746a;
+  color: var(--text-dim);
   max-width: 26rem;
   line-height: 1.9;
 }
 
 .error {
-  color: #c98a68;
+  color: var(--accent);
 }
 
 .strip {

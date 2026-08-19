@@ -3,8 +3,6 @@
   inset: 0;
   display: grid;
   place-content: center;
-  background:
-    radial-gradient(120% 90% at 50% 20%, #22201d, #100f0e 70%);
   perspective: 900px;
   user-select: none;
 }
@@ -175,6 +173,6 @@
   font-size: 0.62rem;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: #6b6259;
+  color: var(--text-dim);
   transition: opacity 0.6s ease;
 }

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState, type ComponentType } from "react";
+import { loaders } from "@/things/loaders";
 
 /**
  * Loads a thing's implementation on demand.
@@ -12,10 +13,15 @@ export function ThingStage({ id }: { id: string }) {
   const [Thing, setThing] = useState<ComponentType | null>(null);
 
   useEffect(() => {
+    const load = loaders[id];
+    if (!load) {
+      console.error(`thing ${id} is marked complete but has no loader`);
+      return;
+    }
     let alive = true;
-    import(`../../things/${id}/index`)
+    load()
       .then((mod) => {
-        if (alive) setThing(() => mod.default as ComponentType);
+        if (alive) setThing(() => mod.default);
       })
       .catch((err) => {
         console.error(`thing ${id} failed to load`, err);

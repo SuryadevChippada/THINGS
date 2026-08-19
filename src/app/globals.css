@@ -364,7 +364,9 @@ a {
   font-size: 0.68rem;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--text-dim);
+  /* Inverted against whatever the thing painted, so it stays legible on a
+     white photo booth and a black staircase alike. */
+  color: #b9b3aa;
   mix-blend-mode: difference;
   transition: color 0.3s var(--ease-out);
 }
