@@ -1,0 +1,171 @@
+.stage {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-content: center;
+  background:
+    radial-gradient(120% 90% at 50% 20%, #22201d, #100f0e 70%);
+  perspective: 900px;
+  user-select: none;
+}
+
+.machine {
+  position: relative;
+  width: 340px;
+  height: 190px;
+  border-radius: 4px;
+  transform-style: preserve-3d;
+  background:
+    linear-gradient(180deg, #5b3f2b 0%, #4a3222 42%, #3a2719 100%);
+  box-shadow:
+    0 1px 0 rgba(255, 214, 170, 0.18) inset,
+    0 -14px 30px rgba(0, 0, 0, 0.45) inset,
+    0 26px 50px -18px rgba(0, 0, 0, 0.8);
+}
+
+/* faint woodgrain */
+.machine::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 4px;
+  pointer-events: none;
+  opacity: 0.22;
+  background: repeating-linear-gradient(
+    92deg,
+    rgba(0, 0, 0, 0.22) 0 1px,
+    transparent 1px 7px
+  );
+}
+
+/* the recess the arm lives in */
+.cavity {
+  position: absolute;
+  left: 34px;
+  top: 52px;
+  width: 104px;
+  height: 86px;
+  border-radius: 3px;
+  background: #0b0907;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.8) inset;
+}
+
+.arm {
+  position: absolute;
+  left: 44px;
+  top: 88px;
+  width: 84px;
+  height: 12px;
+  border-radius: 6px;
+  background: linear-gradient(180deg, #c9c4bb, #8d8880 60%, #6d6862);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.35) inset;
+  transform: translateX(0);
+}
+
+/* the little finger on the end of the arm */
+.arm::after {
+  content: "";
+  position: absolute;
+  right: -5px;
+  top: -6px;
+  width: 16px;
+  height: 24px;
+  border-radius: 4px 7px 7px 4px;
+  background: linear-gradient(180deg, #ded8ce, #9a948b);
+}
+
+.hatch {
+  position: absolute;
+  left: 34px;
+  top: 52px;
+  width: 104px;
+  height: 86px;
+  border-radius: 3px;
+  transform-origin: left center;
+  transform-style: preserve-3d;
+  background: linear-gradient(180deg, #543926 0%, #432d1e 100%);
+  box-shadow:
+    0 1px 0 rgba(255, 214, 170, 0.16) inset,
+    0 6px 18px -6px rgba(0, 0, 0, 0.7);
+  border: 1px solid rgba(0, 0, 0, 0.35);
+}
+
+.hatch::after {
+  content: "";
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  width: 4px;
+  height: 16px;
+  margin-top: -8px;
+  border-radius: 2px;
+  background: #b8894f;
+  opacity: 0.75;
+}
+
+/* brass switch plate */
+.plate {
+  position: absolute;
+  right: 36px;
+  top: 58px;
+  width: 74px;
+  height: 74px;
+  border-radius: 3px;
+  background: linear-gradient(180deg, #c8a469 0%, #97753f 55%, #7d5f31 100%);
+  box-shadow:
+    0 1px 0 rgba(255, 236, 198, 0.5) inset,
+    0 6px 14px -6px rgba(0, 0, 0, 0.75);
+  display: grid;
+  place-items: center;
+}
+
+.slot {
+  position: relative;
+  width: 20px;
+  height: 44px;
+  border-radius: 10px;
+  background: #241a10;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.7) inset;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+}
+
+.lever {
+  position: absolute;
+  bottom: 8px;
+  left: 4px;
+  width: 12px;
+  height: 40px;
+  border-radius: 6px;
+  transform-origin: bottom center;
+  background: linear-gradient(180deg, #efe9df, #b3ada3 55%, #8b8680);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.55);
+}
+
+.labels {
+  position: absolute;
+  right: 118px;
+  top: 62px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 66px;
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-size: 0.5rem;
+  letter-spacing: 0.2em;
+  color: rgba(255, 226, 190, 0.4);
+}
+
+.count {
+  position: fixed;
+  bottom: clamp(1.25rem, 3vw, 2rem);
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-size: 0.62rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #6b6259;
+  transition: opacity 0.6s ease;
+}
