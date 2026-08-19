@@ -270,8 +270,9 @@ export default function InfiniteStaircase() {
 
       if (fwd || strafe) {
         const len = Math.hypot(fwd, strafe) || 1;
-        const dirX = (Math.sin(yaw) * fwd + Math.cos(yaw) * strafe) / len;
-        const dirZ = (Math.cos(yaw) * fwd - Math.sin(yaw) * strafe) / len;
+        // the camera looks down -Z, so forward is (-sin, -cos); right is (cos, -sin)
+        const dirX = (-Math.sin(yaw) * fwd + Math.cos(yaw) * strafe) / len;
+        const dirZ = (-Math.cos(yaw) * fwd - Math.sin(yaw) * strafe) / len;
 
         let x = Math.cos(theta) * radius + dirX * speed;
         let z = Math.sin(theta) * radius + dirZ * speed;
