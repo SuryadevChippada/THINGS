@@ -2,37 +2,12 @@
   position: fixed;
   inset: 0;
   overflow: hidden;
-  cursor: crosshair;
+  /* the cursor is the player, so it shouldn't also be an arrow */
+  cursor: none;
 }
 
-/* the safe part */
-.corridor {
-  position: absolute;
-  background: var(--surface);
-  border: 1px solid var(--line);
-  border-radius: 2px;
-  pointer-events: none;
-}
-
-.pad {
-  position: absolute;
-  display: grid;
-  place-items: center;
-  border: 1px dashed var(--line);
-  border-radius: 2px;
-  background: rgba(214, 209, 201, 0.05);
-  font-family: var(--font-geist-mono), ui-monospace, monospace;
-  font-size: 0.56rem;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--text-dim);
-  pointer-events: none;
-}
-
-.goal {
-  border-color: var(--line-accent);
-  background: rgba(201, 135, 92, 0.08);
-  color: var(--accent);
+.canvas {
+  display: block;
 }
 
 .hud {
@@ -40,15 +15,46 @@
   top: clamp(1.25rem, 3vw, 2rem);
   right: clamp(1.25rem, 3vw, 2rem);
   z-index: 20;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.35rem;
   pointer-events: none;
-}
-
-.level {
   font-family: var(--font-geist-mono), ui-monospace, monospace;
   font-size: 0.62rem;
   letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--text-dim);
+}
+
+.timer {
+  color: var(--text-soft);
+  font-variant-numeric: tabular-nums;
+}
+
+.tip {
+  position: fixed;
+  bottom: clamp(1.5rem, 4vw, 2.5rem);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 20;
+  pointer-events: none;
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  animation: breathe 3s ease-in-out infinite;
+}
+
+@keyframes breathe {
+  0%,
+  100% {
+    opacity: 0.35;
+  }
+  50% {
+    opacity: 0.8;
+  }
 }
 
 .overlay {
@@ -58,10 +64,11 @@
   display: grid;
   place-content: center;
   justify-items: center;
-  gap: 1.4rem;
-  background: rgba(13, 13, 13, 0.86);
-  backdrop-filter: blur(3px);
-  animation: fadeIn 0.28s ease-out;
+  gap: 1.5rem;
+  background: rgba(13, 13, 13, 0.84);
+  backdrop-filter: blur(4px);
+  cursor: default;
+  animation: fadeIn 0.3s ease-out;
 }
 
 @keyframes fadeIn {
@@ -76,10 +83,15 @@
 .verdict {
   margin: 0;
   font-family: var(--font-geist-mono), ui-monospace, monospace;
-  font-size: 0.78rem;
-  letter-spacing: 0.2em;
+  font-size: 0.8rem;
+  letter-spacing: 0.22em;
   text-transform: uppercase;
   color: var(--text);
+}
+
+.row {
+  display: flex;
+  gap: 0.5rem;
 }
 
 .button {
@@ -91,9 +103,13 @@
   font-size: 0.62rem;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  padding: 0.6rem 1.2rem;
+  padding: 0.62rem 1.25rem;
   border-radius: 2px;
   cursor: pointer;
+  transition:
+    color 0.25s ease,
+    background 0.25s ease,
+    border-color 0.25s ease;
 }
 
 .button:hover {
