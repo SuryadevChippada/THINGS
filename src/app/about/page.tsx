@@ -32,8 +32,8 @@ export default function About() {
         <p className="about__label">About</p>
 
         <p>
-          THINGS is a collection of small things I make because I feel like
-          making them.
+          THINGS is a collection of small things I made because I felt like
+          making them as i was bored.
         </p>
 
         <p>
