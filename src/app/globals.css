@@ -1,0 +1,584 @@
+@import "tailwindcss";
+
+/* ---------------------------------------------------------------
+   THINGS — archive visual identity
+   near black · warm off-white · muted copper
+   Copper is rare: indicators, links, arrows, markers, focus.
+--------------------------------------------------------------- */
+
+:root {
+  --bg: #0d0d0d;
+  --bg-soft: #111111;
+  --surface: #171717;
+
+  --text: #d6d1c9;
+  --text-soft: #99948d;
+  --text-dim: #66625e;
+
+  --accent: #c9875c;
+  --accent-hover: #d89a6c;
+  --accent-muted: #8c5f43;
+
+  --line: rgba(214, 209, 201, 0.13);
+  --line-accent: rgba(201, 135, 92, 0.35);
+
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-text: var(--text);
+  --color-accent: var(--accent);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  background: var(--bg);
+  /* Lenis drives scrolling; native smooth would fight it. */
+  scroll-behavior: auto;
+}
+
+body {
+  margin: 0;
+  min-height: 100%;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-geist-sans), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Tonal variation — keeps the dark off flat #000 */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background:
+    radial-gradient(120% 80% at 22% 8%, rgba(201, 135, 92, 0.045), transparent 60%),
+    radial-gradient(90% 70% at 85% 95%, rgba(214, 209, 201, 0.028), transparent 65%);
+}
+
+/* Film grain — barely noticeable, procedural, no assets */
+body::after {
+  content: "";
+  position: fixed;
+  inset: -50%;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.05;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+::selection {
+  background: var(--accent-muted);
+  color: #0d0d0d;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+:focus-visible {
+  outline: 1px solid var(--accent);
+  outline-offset: 3px;
+}
+
+/* ---------------------------------------------------------------
+   Archive chrome
+--------------------------------------------------------------- */
+
+.chrome {
+  position: fixed;
+  z-index: 20;
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.chrome--mark {
+  top: clamp(1.5rem, 3.5vw, 2.5rem);
+  left: clamp(1.5rem, 5vw, 4rem);
+  color: var(--text);
+}
+
+.chrome--about {
+  top: clamp(1.5rem, 3.5vw, 2.5rem);
+  right: clamp(1.5rem, 5vw, 4rem);
+  color: var(--text-soft);
+  transition: color 0.35s var(--ease-out);
+}
+
+.chrome--about:hover {
+  color: var(--accent);
+}
+
+.chrome--by {
+  bottom: clamp(1.5rem, 3.5vw, 2.5rem);
+  right: clamp(1.5rem, 5vw, 4rem);
+  color: var(--text-dim);
+  font-size: 0.66rem;
+}
+
+/* ---------------------------------------------------------------
+   The list is the interface
+--------------------------------------------------------------- */
+
+.archive {
+  position: relative;
+  z-index: 5;
+  width: min(34rem, 52vw);
+  margin-left: clamp(1.5rem, 5vw, 4rem);
+  padding: 46vh 0 46vh;
+}
+
+@media (max-width: 900px) {
+  .archive {
+    width: min(34rem, 88vw);
+    padding: 30vh 0 34vh;
+  }
+}
+
+.row {
+  display: flex;
+  align-items: baseline;
+  gap: clamp(1rem, 2.5vw, 2rem);
+  padding: 0.5rem 0;
+  position: relative;
+  will-change: transform, opacity;
+}
+
+.row__num {
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  color: var(--text-dim);
+  flex: none;
+  transition: color 0.35s var(--ease-out);
+}
+
+.row__title {
+  font-size: clamp(0.95rem, 1.5vw, 1.15rem);
+  letter-spacing: 0.01em;
+  color: var(--text-soft);
+  transition:
+    color 0.35s var(--ease-out),
+    transform 0.45s var(--ease-out);
+  will-change: transform;
+}
+
+.row__rule {
+  flex: 1;
+  height: 1px;
+  background: var(--line);
+  transform: scaleX(0);
+  transform-origin: left;
+  opacity: 0;
+  transition:
+    transform 0.5s var(--ease-out),
+    opacity 0.4s var(--ease-out);
+}
+
+.row__date {
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-size: 0.64rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  flex: none;
+  opacity: 0;
+  transition: opacity 0.4s var(--ease-out);
+}
+
+.row:hover .row__num,
+.row:focus-visible .row__num {
+  color: var(--accent);
+}
+
+.row:hover .row__title,
+.row:focus-visible .row__title {
+  color: var(--text);
+  transform: translateX(9px);
+}
+
+.row:hover .row__rule,
+.row:focus-visible .row__rule {
+  transform: scaleX(1);
+  opacity: 1;
+}
+
+.row:hover .row__date,
+.row:focus-visible .row__date {
+  opacity: 1;
+}
+
+/* Unbuilt things stay honest: present, dimmer, still reachable */
+.row--planned .row__title {
+  color: var(--text-dim);
+}
+
+.row--planned:hover .row__title {
+  color: var(--text-soft);
+}
+
+/* ---------------------------------------------------------------
+   Chronological indicator
+--------------------------------------------------------------- */
+
+.timeline {
+  position: fixed;
+  right: clamp(1.5rem, 4vw, 3.25rem);
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  height: 58vh;
+  width: 1px;
+  pointer-events: none;
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+}
+
+@media (max-width: 900px) {
+  .timeline {
+    display: none;
+  }
+}
+
+.timeline__line {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    var(--line) 10%,
+    var(--line) 90%,
+    transparent
+  );
+}
+
+.timeline__cap {
+  position: absolute;
+  right: 0;
+  font-size: 0.58rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  white-space: nowrap;
+  opacity: 0.5;
+}
+
+.timeline__cap--top {
+  bottom: calc(100% + 1.7rem);
+}
+
+.timeline__cap--bottom {
+  top: calc(100% + 1.7rem);
+}
+
+.timeline__arrow {
+  position: absolute;
+  right: -0.2rem;
+  top: calc(100% + 2.4rem);
+  color: var(--accent-muted);
+  font-size: 0.7rem;
+}
+
+.timeline__marker {
+  position: absolute;
+  left: 50%;
+  width: 5px;
+  height: 5px;
+  margin-left: -2.5px;
+  margin-top: -2.5px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 0 4px rgba(201, 135, 92, 0.12);
+}
+
+.timeline__active {
+  position: absolute;
+  right: 1rem;
+  white-space: nowrap;
+  text-align: right;
+  font-size: 0.62rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--text-soft);
+  transform: translateY(-50%);
+}
+
+/* ---------------------------------------------------------------
+   Experiment shell
+--------------------------------------------------------------- */
+
+.thing-back {
+  position: fixed;
+  top: clamp(1.25rem, 3vw, 2rem);
+  left: clamp(1.25rem, 3vw, 2rem);
+  z-index: 60;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  mix-blend-mode: difference;
+  transition: color 0.3s var(--ease-out);
+}
+
+.thing-back:hover {
+  color: var(--accent);
+}
+
+.thing-back__arrow {
+  transition: transform 0.35s var(--ease-out);
+}
+
+.thing-back:hover .thing-back__arrow {
+  transform: translateX(-4px);
+}
+
+.thing-hint {
+  position: fixed;
+  bottom: clamp(1.25rem, 3vw, 2rem);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 60;
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-size: 0.64rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  pointer-events: none;
+  transition: opacity 0.7s var(--ease-out);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ---------------------------------------------------------------
+   Entrances & transitions
+--------------------------------------------------------------- */
+
+.archive-enter {
+  animation: archiveIn 0.9s var(--ease-out) both;
+}
+
+@keyframes archiveIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.archive-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  background: var(--bg);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.timeline__active {
+  animation: softIn 0.55s var(--ease-out) both;
+}
+
+@keyframes softIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* ---------------------------------------------------------------
+   About
+--------------------------------------------------------------- */
+
+.about {
+  position: relative;
+  z-index: 5;
+  max-width: 30rem;
+  margin-left: clamp(1.5rem, 5vw, 4rem);
+  padding: 22vh 1.5rem 18vh 0;
+  animation: archiveIn 0.9s var(--ease-out) both;
+}
+
+.about__label {
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin: 0 0 2.5rem;
+}
+
+.about p {
+  font-size: 0.95rem;
+  line-height: 1.85;
+  color: var(--text-soft);
+  margin: 0 0 1.5rem;
+}
+
+.about__meta {
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.1em;
+  color: var(--text-dim);
+}
+
+.about__find {
+  margin: 3.5rem 0 0.9rem;
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-size: 0.66rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+
+.about__links {
+  display: flex;
+  gap: 1.1rem;
+  align-items: center;
+}
+
+.about__link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.9rem;
+  height: 1.9rem;
+  border: 1px solid var(--line);
+  border-radius: 2px;
+  color: var(--text-dim);
+  transition:
+    color 0.3s var(--ease-out),
+    border-color 0.3s var(--ease-out),
+    transform 0.3s var(--ease-out);
+}
+
+.about__link:hover {
+  color: var(--accent);
+  border-color: var(--line-accent);
+  transform: translateY(-2px);
+}
+
+/* ---------------------------------------------------------------
+   Not-yet-built things
+--------------------------------------------------------------- */
+
+.unbuilt {
+  min-height: 100dvh;
+  display: grid;
+  place-content: center;
+  text-align: center;
+  gap: 1rem;
+  padding: 2rem;
+}
+
+.unbuilt__num {
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  color: var(--accent);
+}
+
+.unbuilt__title {
+  font-size: clamp(1.6rem, 5vw, 2.6rem);
+  color: var(--text);
+  margin: 0;
+  font-weight: 400;
+}
+
+.unbuilt__note {
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+
+/* ---------------------------------------------------------------
+   Thing intro — carries the title over from the archive transition
+--------------------------------------------------------------- */
+
+.thing-intro {
+  position: fixed;
+  inset: 0;
+  z-index: 70;
+  display: grid;
+  place-content: center;
+  background: var(--bg);
+  transition:
+    opacity 0.75s var(--ease-out),
+    visibility 0.75s;
+}
+
+.thing-intro--gone {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.thing-intro__title {
+  font-size: clamp(1.3rem, 3vw, 1.7rem);
+  color: var(--text);
+  letter-spacing: 0.01em;
+}
+
+/* ---------------------------------------------------------------
+   Edge fades — the list dissolves before it reaches the chrome
+--------------------------------------------------------------- */
+
+.archive-fade {
+  position: fixed;
+  left: 0;
+  right: 0;
+  height: 20vh;
+  z-index: 15;
+  pointer-events: none;
+}
+
+.archive-fade--top {
+  top: 0;
+  background: linear-gradient(
+    to bottom,
+    var(--bg) 0%,
+    var(--bg) 26%,
+    rgba(13, 13, 13, 0.82) 52%,
+    transparent 100%
+  );
+}
+
+.archive-fade--bottom {
+  bottom: 0;
+  background: linear-gradient(
+    to top,
+    var(--bg) 0%,
+    var(--bg) 22%,
+    rgba(13, 13, 13, 0.8) 50%,
+    transparent 100%
+  );
+}

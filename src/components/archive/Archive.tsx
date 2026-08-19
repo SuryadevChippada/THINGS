@@ -1,0 +1,231 @@
+"use client";
+
+import { useCallback, useLayoutEffect, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
+import { createTimeline, stagger } from "animejs";
+
+import { archive } from "@/things/registry";
+import { formatFull } from "@/lib/date";
+import { useLenis } from "@/hooks/useLenis";
+import { useReducedMotion } from "@/hooks/useReducedMotion";
+import { Timeline } from "./Timeline";
+
+const SCROLL_KEY = "things:archive-scroll";
+
+export function Archive() {
+  const router = useRouter();
+  const reducedMotion = useReducedMotion();
+
+  const listRef = useRef<HTMLOListElement>(null);
+  const overlayRef = useRef<HTMLDivElement>(null);
+  const scrollRef = useRef(0);
+  /** Row centres in document space, cached so scrolling never reads layout. */
+  const centresRef = useRef<number[]>([]);
+  const openingRef = useRef(false);
+
+  const [progress, setProgress] = useState(0);
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  const measure = useCallback(() => {
+    const list = listRef.current;
+    if (!list) return;
+    const rows = list.querySelectorAll<HTMLElement>("[data-row]");
+    const listTop = list.getBoundingClientRect().top + window.scrollY;
+    centresRef.current = Array.from(rows, (el) => listTop + el.offsetTop + el.offsetHeight / 2);
+  }, []);
+
+  const handleScroll = useCallback((scroll: number, limit: number) => {
+    scrollRef.current = scroll;
+    setProgress(limit > 0 ? Math.min(1, Math.max(0, scroll / limit)) : 0);
+
+    const centres = centresRef.current;
+    if (!centres.length) return;
+    const focus = scroll + window.innerHeight / 2;
+    let best = 0;
+    let bestDist = Infinity;
+    for (let i = 0; i < centres.length; i++) {
+      const dist = Math.abs(centres[i] - focus);
+      if (dist < bestDist) {
+        bestDist = dist;
+        best = i;
+      }
+    }
+    setActiveIndex(best);
+  }, []);
+
+  const lenisRef = useLenis({ onScroll: handleScroll, disabled: reducedMotion });
+
+  // Restore the reading position before paint, so returning from a thing
+  // never shows a jump back to the top.
+  useLayoutEffect(() => {
+    if ("scrollRestoration" in window.history) {
+      window.history.scrollRestoration = "manual";
+    }
+    measure();
+
+    const saved = Number(sessionStorage.getItem(SCROLL_KEY) ?? 0);
+    if (saved > 0) {
+      window.scrollTo(0, saved);
+      scrollRef.current = saved;
+    }
+    // Sync the timeline to the restored position on the next frame, once
+    // layout has settled.
+    const sync = requestAnimationFrame(() =>
+      handleScroll(scrollRef.current, document.documentElement.scrollHeight - window.innerHeight),
+    );
+
+    const onResize = () => {
+      measure();
+      handleScroll(scrollRef.current, document.documentElement.scrollHeight - window.innerHeight);
+    };
+    window.addEventListener("resize", onResize);
+
+    const persist = () => sessionStorage.setItem(SCROLL_KEY, String(scrollRef.current));
+    window.addEventListener("pagehide", persist);
+
+    return () => {
+      cancelAnimationFrame(sync);
+      window.removeEventListener("resize", onResize);
+      window.removeEventListener("pagehide", persist);
+      persist();
+    };
+  }, [measure, handleScroll]);
+
+  /**
+   * Opening a thing should not read as ordinary navigation: the archive
+   * clears, the chosen title becomes the only thing left, then the
+   * experiment takes the viewport.
+   */
+  const open = useCallback(
+    (event: React.MouseEvent<HTMLAnchorElement>, id: string, index: number) => {
+      // Let modified clicks (new tab, etc.) behave normally.
+      if (event.metaKey || event.ctrlKey || event.shiftKey || event.button !== 0) return;
+      event.preventDefault();
+      if (openingRef.current) return;
+      openingRef.current = true;
+
+      sessionStorage.setItem(SCROLL_KEY, String(scrollRef.current));
+
+      if (reducedMotion) {
+        router.push(`/${id}`);
+        return;
+      }
+
+      lenisRef.current?.stop();
+
+      const list = listRef.current;
+      const rows = Array.from(list?.querySelectorAll<HTMLElement>("[data-row]") ?? []);
+      const chosen = rows[index];
+      const others = rows.filter((_, i) => i !== index);
+      const title = chosen?.querySelector<HTMLElement>("[data-title]") ?? null;
+      const num = chosen?.querySelector<HTMLElement>("[data-num]") ?? null;
+      const chrome = document.querySelectorAll<HTMLElement>("[data-chrome]");
+      const overlay = overlayRef.current;
+
+      const tl = createTimeline({
+        defaults: { ease: "outQuart" },
+        onComplete: () => router.push(`/${id}`),
+      });
+
+      tl.add(chrome, { opacity: 0, duration: 280 }, 0);
+
+      // clears outward from the row you chose
+      tl.add(
+        others,
+        {
+          opacity: 0,
+          translateY: -6,
+          duration: 420,
+          delay: stagger(9, { from: Math.min(index, others.length - 1) }),
+        },
+        40,
+      );
+
+      if (num) tl.add(num, { opacity: 0, duration: 260 }, 60);
+
+      if (title) {
+        const rect = title.getBoundingClientRect();
+        const dx = window.innerWidth / 2 - (rect.left + rect.width / 2);
+        const dy = window.innerHeight / 2 - (rect.top + rect.height / 2);
+        tl.add(
+          title,
+          {
+            translateX: dx,
+            translateY: dy,
+            scale: 1.35,
+            color: "#d6d1c9",
+            duration: 640,
+            ease: "inOutQuart",
+          },
+          180,
+        );
+      }
+
+      if (overlay) {
+        tl.add(overlay, { opacity: 1, duration: 300, ease: "inQuad" }, 540);
+      }
+
+      // Fallback: if anime is interrupted, still navigate.
+      window.setTimeout(() => {
+        if (openingRef.current) router.push(`/${id}`);
+      }, 1100);
+    },
+    [reducedMotion, router, lenisRef],
+  );
+
+  const activeDate = archive[activeIndex]?.date ?? archive[0].date;
+
+  return (
+    <>
+      {/* the list dissolves at the edges rather than running under the chrome */}
+      <div className="archive-fade archive-fade--top" />
+      <div className="archive-fade archive-fade--bottom" />
+
+      <span className="chrome chrome--mark" data-chrome>
+        THINGS
+      </span>
+      <Link href="/about" className="chrome chrome--about" data-chrome>
+        About
+      </Link>
+
+      <main className="archive-enter">
+        <ol className="archive" ref={listRef}>
+          {archive.map((thing, index) => (
+            <li key={thing.id} data-row>
+              <Link
+                href={`/${thing.id}`}
+                onClick={(e) => open(e, thing.id, index)}
+                className={`row${thing.status === "planned" ? " row--planned" : ""}`}
+              >
+                <span className="row__num" data-num>
+                  {thing.id}
+                </span>
+                <span className="row__title" data-title>
+                  {thing.title}
+                </span>
+                <span className="row__rule" />
+                <span className="row__date">{formatFull(thing.date)}</span>
+              </Link>
+            </li>
+          ))}
+        </ol>
+      </main>
+
+      <div data-chrome>
+        <Timeline
+          progress={progress}
+          activeDate={activeDate}
+          newestDate={archive[0].date}
+          oldestDate={archive[archive.length - 1].date}
+        />
+      </div>
+
+      <span className="chrome chrome--by" data-chrome>
+        by Surya
+      </span>
+
+      <div ref={overlayRef} className="archive-overlay" />
+    </>
+  );
+}
