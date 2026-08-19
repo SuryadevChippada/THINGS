@@ -4,8 +4,6 @@ import { useEffect, useRef } from "react";
 import Lenis from "lenis";
 
 interface Options {
-  /** Called on every Lenis scroll frame. */
-  onScroll?: (scroll: number, limit: number) => void;
   /** Skip Lenis entirely (reduced motion) — native scrolling stays. */
   disabled?: boolean;
 }
@@ -17,14 +15,12 @@ interface Options {
  * deltas, and duration-based easing restarts on each one, which reads as
  * floaty. Lerp stays responsive under rapid input and still smooths a
  * coarse mouse wheel. Touch is left native — it already feels right.
+ *
+ * Lenis drives the real window scroll, so anything that needs the current
+ * position can just listen for `scroll`.
  */
-export function useLenis({ onScroll, disabled = false }: Options = {}) {
+export function useLenis({ disabled = false }: Options = {}) {
   const lenisRef = useRef<Lenis | null>(null);
-  const onScrollRef = useRef(onScroll);
-
-  useEffect(() => {
-    onScrollRef.current = onScroll;
-  });
 
   useEffect(() => {
     if (disabled) return;
@@ -37,10 +33,6 @@ export function useLenis({ onScroll, disabled = false }: Options = {}) {
       autoRaf: false,
     });
     lenisRef.current = lenis;
-
-    lenis.on("scroll", ({ scroll, limit }: { scroll: number; limit: number }) => {
-      onScrollRef.current?.(scroll, limit);
-    });
 
     let frame = 0;
     const raf = (time: number) => {

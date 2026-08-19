@@ -86,3 +86,48 @@ export function whir(duration = 0.38, base = 92) {
   osc.stop(now + duration);
   lfo.stop(now + duration);
 }
+
+/** A contented rumble. Amplitude-modulated low noise. */
+export function purr(duration = 1.8) {
+  const ac = getAudio();
+  if (!ac) return;
+  const now = ac.currentTime;
+
+  const frames = Math.ceil(ac.sampleRate * duration);
+  const buffer = ac.createBuffer(1, frames, ac.sampleRate);
+  const data = buffer.getChannelData(0);
+  for (let i = 0; i < frames; i++) data[i] = Math.random() * 2 - 1;
+
+  const src = ac.createBufferSource();
+  src.buffer = buffer;
+
+  const filter = ac.createBiquadFilter();
+  filter.type = "lowpass";
+  filter.frequency.value = 220;
+  filter.Q.value = 3;
+
+  // the rumble itself — roughly 26 cycles a second
+  const lfo = ac.createOscillator();
+  lfo.frequency.value = 26;
+  const depth = ac.createGain();
+  depth.gain.value = 0.055;
+  lfo.connect(depth);
+
+  const amp = ac.createGain();
+  amp.gain.setValueAtTime(0, now);
+  amp.gain.linearRampToValueAtTime(0.075, now + 0.25);
+  amp.gain.setValueAtTime(0.075, now + duration - 0.35);
+  amp.gain.linearRampToValueAtTime(0, now + duration);
+  depth.connect(amp.gain);
+
+  src.connect(filter).connect(amp).connect(ac.destination);
+  src.start(now);
+  lfo.start(now);
+  src.stop(now + duration);
+  lfo.stop(now + duration);
+}
+
+/** A single small lap of water. */
+export function lap() {
+  click({ freq: 900, gain: 0.13, decay: 0.06, q: 0.8 });
+}

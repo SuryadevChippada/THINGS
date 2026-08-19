@@ -35,7 +35,9 @@ export function Archive() {
     centresRef.current = Array.from(rows, (el) => listTop + el.offsetTop + el.offsetHeight / 2);
   }, []);
 
-  const handleScroll = useCallback((scroll: number, limit: number) => {
+  const handleScroll = useCallback(() => {
+    const scroll = window.scrollY;
+    const limit = document.documentElement.scrollHeight - window.innerHeight;
     scrollRef.current = scroll;
     setProgress(limit > 0 ? Math.min(1, Math.max(0, scroll / limit)) : 0);
 
@@ -54,7 +56,9 @@ export function Archive() {
     setActiveIndex(best);
   }, []);
 
-  const lenisRef = useLenis({ onScroll: handleScroll, disabled: reducedMotion });
+  // Lenis scrolls the real window, so a native listener tracks it in both
+  // smooth and reduced-motion modes.
+  const lenisRef = useLenis({ disabled: reducedMotion });
 
   // Restore the reading position before paint, so returning from a thing
   // never shows a jump back to the top.
@@ -71,15 +75,14 @@ export function Archive() {
     }
     // Sync the timeline to the restored position on the next frame, once
     // layout has settled.
-    const sync = requestAnimationFrame(() =>
-      handleScroll(scrollRef.current, document.documentElement.scrollHeight - window.innerHeight),
-    );
+    const sync = requestAnimationFrame(handleScroll);
 
     const onResize = () => {
       measure();
-      handleScroll(scrollRef.current, document.documentElement.scrollHeight - window.innerHeight);
+      handleScroll();
     };
     window.addEventListener("resize", onResize);
+    window.addEventListener("scroll", handleScroll, { passive: true });
 
     const persist = () => sessionStorage.setItem(SCROLL_KEY, String(scrollRef.current));
     window.addEventListener("pagehide", persist);
@@ -87,6 +90,7 @@ export function Archive() {
     return () => {
       cancelAnimationFrame(sync);
       window.removeEventListener("resize", onResize);
+      window.removeEventListener("scroll", handleScroll);
       window.removeEventListener("pagehide", persist);
       persist();
     };
@@ -176,6 +180,17 @@ export function Archive() {
 
   const activeDate = archive[activeIndex]?.date ?? archive[0].date;
 
+  const scrub = useCallback(
+    (p: number) => {
+      const limit = document.documentElement.scrollHeight - window.innerHeight;
+      const target = p * limit;
+      const lenis = lenisRef.current;
+      if (lenis) lenis.scrollTo(target, { immediate: true });
+      else window.scrollTo(0, target);
+    },
+    [lenisRef],
+  );
+
   return (
     <>
       {/* the list dissolves at the edges rather than running under the chrome */}
@@ -190,7 +205,7 @@ export function Archive() {
       </Link>
 
       <main className="archive-enter">
-        <ol className="archive" ref={listRef}>
+        <ol className="archive" id="archive-list" ref={listRef}>
           {archive.map((thing, index) => (
             <li key={thing.id} data-row>
               <Link
@@ -218,6 +233,7 @@ export function Archive() {
           activeDate={activeDate}
           newestDate={archive[0].date}
           oldestDate={archive[archive.length - 1].date}
+          onScrub={scrub}
         />
       </div>
 

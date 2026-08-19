@@ -41,6 +41,12 @@ html {
   background: var(--bg);
   /* Lenis drives scrolling; native smooth would fight it. */
   scroll-behavior: auto;
+  /* the timeline is the scrollbar */
+  scrollbar-width: none;
+}
+
+html::-webkit-scrollbar {
+  display: none;
 }
 
 body {
@@ -241,8 +247,30 @@ a {
   z-index: 10;
   height: 58vh;
   width: 1px;
-  pointer-events: none;
   font-family: var(--font-geist-mono), ui-monospace, monospace;
+}
+
+/* a wide invisible grab strip, so the 1px line is actually usable */
+.timeline__grab {
+  position: absolute;
+  top: -2%;
+  bottom: -2%;
+  left: -13px;
+  width: 27px;
+  cursor: grab;
+}
+
+.timeline__grab:active {
+  cursor: grabbing;
+}
+
+.timeline:hover .timeline__marker,
+.timeline--scrubbing .timeline__marker {
+  transform: scale(1.5);
+}
+
+.timeline--scrubbing .timeline__active {
+  color: var(--accent);
 }
 
 @media (max-width: 900px) {
@@ -253,6 +281,7 @@ a {
 
 .timeline__line {
   position: absolute;
+  pointer-events: none;
   inset: 0;
   background: linear-gradient(
     to bottom,
@@ -265,6 +294,7 @@ a {
 
 .timeline__cap {
   position: absolute;
+  pointer-events: none;
   right: 0;
   font-size: 0.58rem;
   letter-spacing: 0.16em;
@@ -284,6 +314,7 @@ a {
 
 .timeline__arrow {
   position: absolute;
+  pointer-events: none;
   right: -0.2rem;
   top: calc(100% + 2.4rem);
   color: var(--accent-muted);
@@ -292,6 +323,8 @@ a {
 
 .timeline__marker {
   position: absolute;
+  pointer-events: none;
+  transition: transform 0.25s var(--ease-out);
   left: 50%;
   width: 5px;
   height: 5px;
@@ -304,6 +337,7 @@ a {
 
 .timeline__active {
   position: absolute;
+  pointer-events: none;
   right: 1rem;
   white-space: nowrap;
   text-align: right;
