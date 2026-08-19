@@ -55,6 +55,56 @@ export default function DontTouchTheWalls() {
 
     const nodes = (): Node[] => LEVELS[levelRef.current].nodes;
 
+    /** The centreline, flattened and measured, for the guide pulse. */
+    let path: { x: number; y: number; d: number }[] = [];
+    let pathLength = 0;
+
+    const measurePath = () => {
+      const list = nodes();
+      path = [];
+      let acc = 0;
+      for (let i = 0; i < list.length - 1; i++) {
+        const a = list[i];
+        const b = list[i + 1];
+        const ax = a.x * width;
+        const ay = a.y * height;
+        const bx = b.x * width;
+        const by = b.y * height;
+        const steps = Math.max(1, Math.ceil(Math.hypot(bx - ax, by - ay) / 6));
+        for (let k = 0; k < steps; k++) {
+          const f = k / steps;
+          const x = ax + (bx - ax) * f;
+          const y = ay + (by - ay) * f;
+          if (path.length) {
+            const prev = path[path.length - 1];
+            acc += Math.hypot(x - prev.x, y - prev.y);
+          }
+          path.push({ x, y, d: acc });
+        }
+      }
+      const endNode = list[list.length - 1];
+      const ex = endNode.x * width;
+      const ey = endNode.y * height;
+      if (path.length) acc += Math.hypot(ex - path[path.length - 1].x, ey - path[path.length - 1].y);
+      path.push({ x: ex, y: ey, d: acc });
+      pathLength = acc || 1;
+    };
+
+    /** Position a fraction of the way along the corridor. */
+    const pointAt = (fraction: number) => {
+      const target = fraction * pathLength;
+      for (let i = 1; i < path.length; i++) {
+        if (path[i].d >= target) {
+          const a = path[i - 1];
+          const b = path[i];
+          const span = b.d - a.d || 1;
+          const f = (target - a.d) / span;
+          return { x: a.x + (b.x - a.x) * f, y: a.y + (b.y - a.y) * f };
+        }
+      }
+      return path[path.length - 1] ?? { x: 0, y: 0 };
+    };
+
     const paintFloor = () => {
       const layer = document.createElement("canvas");
       layer.width = width;
@@ -125,6 +175,7 @@ export default function DontTouchTheWalls() {
       canvas.style.width = `${width}px`;
       canvas.style.height = `${height}px`;
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      measurePath();
       paintFloor();
     };
     resize();
@@ -231,21 +282,46 @@ export default function DontTouchTheWalls() {
         setElapsed((performance.now() - startedAtRef.current) / 1000);
       }
 
-      // the ends
-      const draw = (node: Node, colour: string, pulse: boolean) => {
+      // Before you set off, run pulses down the corridor: they show where
+      // it starts, which way it goes, and where it ends, all at once.
+      if (phaseNow === "waiting" && path.length) {
+        for (let i = 0; i < 3; i++) {
+          const f = ((now / 2600 + i / 3) % 1);
+          const p = pointAt(f);
+          const fade = Math.sin(f * Math.PI);
+          const g = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, 20);
+          g.addColorStop(0, `rgba(201, 135, 92, ${0.4 * fade})`);
+          g.addColorStop(1, "rgba(201, 135, 92, 0)");
+          ctx.fillStyle = g;
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, 20, 0, TAU);
+          ctx.fill();
+        }
+      }
+
+      // the ends, named so there is no guessing
+      const draw = (node: Node, colour: string, label: string, pulse: boolean) => {
         const x = node.x * width;
         const y = node.y * height;
         const r = (node.w * unit) / 2;
+        const ring = Math.max(11, r * 0.72) + (pulse ? Math.sin(now / 420) * 2.5 : 0);
+
         ctx.strokeStyle = colour;
         ctx.lineWidth = 1.4;
         ctx.setLineDash([4, 6]);
         ctx.beginPath();
-        ctx.arc(x, y, r * 0.72 + (pulse ? Math.sin(now / 420) * 3 : 0), 0, TAU);
+        ctx.arc(x, y, ring, 0, TAU);
         ctx.stroke();
         ctx.setLineDash([]);
+
+        ctx.fillStyle = colour;
+        ctx.font = "600 9px ui-monospace, monospace";
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+        ctx.fillText(label, x, y + ring + 13);
       };
-      draw(list[0], "rgba(153, 148, 141, 0.4)", false);
-      draw(list[list.length - 1], "rgba(201, 135, 92, 0.85)", true);
+      draw(list[0], "rgba(214, 209, 201, 0.75)", "START", phaseNow === "waiting");
+      draw(list[list.length - 1], "rgba(201, 135, 92, 0.9)", "END", true);
 
       // you
       if (cursor.x > -100 && phaseNow !== "failed") {
@@ -305,7 +381,7 @@ export default function DontTouchTheWalls() {
       </div>
 
       {phase === "waiting" ? (
-        <span className={s.tip}>put the cursor on the ring to begin</span>
+        <span className={s.tip}>put the cursor on START, follow the light to END</span>
       ) : null}
 
       {phase === "failed" || phase === "won" ? (
