@@ -8,4 +8,6 @@ export const hints: Record<string, string> = {
   "019": "grab the bulb",
   "028": "drag to pour",
   "030": "drag to shake",
+  "031": "drag the logs",
+  "033": "click to cast, click again to strike",
 };

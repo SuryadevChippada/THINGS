@@ -1,0 +1,221 @@
+.stage {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  overflow: auto;
+  padding: 4.5rem 1.5rem 3rem;
+  color: var(--text);
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+}
+
+.camera {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.2rem;
+  text-align: center;
+}
+
+/* the cheapest possible object */
+.body {
+  position: relative;
+  width: min(330px, 84vw);
+  padding: 1rem 1.1rem 1.6rem;
+  border-radius: 8px;
+  background: linear-gradient(180deg, #3a3f46, #23262b);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.08) inset,
+    0 24px 50px -28px rgba(0, 0, 0, 0.95);
+}
+
+.top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.9rem;
+}
+
+.brand {
+  font-size: 0.5rem;
+  letter-spacing: 0.22em;
+  color: #8d949c;
+}
+
+.counter {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #d8a273;
+  background: #16181b;
+  padding: 0.15rem 0.5rem;
+  border-radius: 2px;
+  min-width: 2.2rem;
+}
+
+.finder {
+  position: relative;
+  height: 74px;
+  border-radius: 3px;
+  background: #0f1113;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.7) inset;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+}
+
+.crosshair {
+  width: 26px;
+  height: 26px;
+  border: 1px solid rgba(214, 209, 201, 0.28);
+  border-radius: 2px;
+}
+
+.flashOn {
+  position: absolute;
+  inset: 0;
+  background: #fff;
+  animation: pop 0.36s ease-out;
+}
+
+@keyframes pop {
+  from {
+    opacity: 0.95;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+.lens {
+  margin: 1rem auto 0;
+  width: 78px;
+  height: 78px;
+  border-radius: 50%;
+  background: linear-gradient(180deg, #16181b, #0b0c0e);
+  display: grid;
+  place-items: center;
+  box-shadow: 0 0 0 4px #2b2f34;
+}
+
+.glass {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #4d6070, #10171d 70%);
+}
+
+.shutter {
+  position: absolute;
+  top: 0.7rem;
+  right: 1.1rem;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 0;
+  background: linear-gradient(180deg, #d8663f, #a4442a);
+  box-shadow: 0 3px 0 #6f2c1b;
+  cursor: pointer;
+}
+
+.shutter:active:not(:disabled) {
+  transform: translateY(2px);
+  box-shadow: 0 1px 0 #6f2c1b;
+}
+
+.shutter:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.note {
+  margin: 0;
+  font-size: 0.6rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  max-width: 24rem;
+  line-height: 1.9;
+}
+
+.error {
+  color: var(--accent);
+}
+
+.button {
+  appearance: none;
+  border: 1px solid var(--line);
+  background: transparent;
+  color: var(--text-soft);
+  font: inherit;
+  font-size: 0.64rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  padding: 0.65rem 1.3rem;
+  border-radius: 2px;
+  cursor: pointer;
+}
+
+.button:hover {
+  color: #14100d;
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+/* the developed roll */
+.roll {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.2rem;
+  width: 100%;
+}
+
+.rollHead {
+  margin: 0;
+  font-size: 0.62rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 0.7rem;
+  width: min(1000px, 92vw);
+}
+
+.frame {
+  position: relative;
+  display: block;
+  border: 1px solid var(--line);
+  background: #0b0b0c;
+  padding: 5px 5px 16px;
+  border-radius: 2px;
+}
+
+.frame img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.frame span {
+  position: absolute;
+  left: 6px;
+  bottom: 3px;
+  font-size: 0.46rem;
+  letter-spacing: 0.14em;
+  color: var(--text-dim);
+}
+
+.row {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.hidden {
+  display: none;
+}
