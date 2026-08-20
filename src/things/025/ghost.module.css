@@ -1,0 +1,148 @@
+.stage {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  overflow: auto;
+  padding: 4.5rem 1.5rem 3rem;
+  color: var(--text);
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+}
+
+.panel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.1rem;
+  text-align: center;
+}
+
+.frame {
+  position: relative;
+  width: min(340px, 72vw);
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  background: #080807;
+  border-radius: 2px;
+  box-shadow:
+    0 0 0 1px var(--line),
+    0 30px 60px -32px rgba(0, 0, 0, 0.95);
+}
+
+.plate {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.count {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-size: clamp(3rem, 12vw, 5rem);
+  color: var(--text);
+  text-shadow: 0 4px 30px rgba(0, 0, 0, 0.8);
+  pointer-events: none;
+}
+
+.off {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-size: 0.62rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  pointer-events: none;
+}
+
+.row {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.button {
+  appearance: none;
+  border: 1px solid var(--line);
+  background: transparent;
+  color: var(--text-soft);
+  font: inherit;
+  font-size: 0.64rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  padding: 0.65rem 1.3rem;
+  border-radius: 2px;
+  cursor: pointer;
+  transition:
+    color 0.25s ease,
+    background 0.25s ease,
+    border-color 0.25s ease;
+}
+
+.button:hover:not(:disabled) {
+  color: #14100d;
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+.button:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.chip {
+  appearance: none;
+  border: 1px solid var(--line);
+  background: transparent;
+  color: var(--text-dim);
+  font: inherit;
+  font-size: 0.56rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 0.4rem 0.8rem;
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+.chipOn {
+  color: var(--accent);
+  border-color: var(--line-accent);
+}
+
+.slider {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  font-size: 0.54rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+
+.slider input {
+  accent-color: var(--accent);
+  width: min(180px, 46vw);
+}
+
+.note {
+  margin: 0;
+  font-size: 0.6rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  max-width: 24rem;
+  line-height: 1.9;
+}
+
+.error {
+  color: var(--accent);
+}
+
+.hidden {
+  display: none;
+}

@@ -1,0 +1,112 @@
+.stage {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  overflow: auto;
+  padding: 4.5rem 1.5rem 3rem;
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+}
+
+.panel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.1rem;
+}
+
+.board {
+  display: block;
+  width: min(512px, 84vw);
+  height: auto;
+  aspect-ratio: 1;
+  /* no smoothing — a pixel is a pixel */
+  image-rendering: pixelated;
+  border: 1px solid var(--line);
+  cursor: crosshair;
+  touch-action: none;
+  box-shadow: 0 26px 54px -32px rgba(0, 0, 0, 0.95);
+}
+
+.swatches {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  gap: 5px;
+}
+
+.swatch {
+  appearance: none;
+  width: 26px;
+  height: 26px;
+  border: 1px solid var(--line);
+  border-radius: 2px;
+  cursor: pointer;
+  padding: 0;
+  transition:
+    transform 0.14s ease,
+    border-color 0.14s ease;
+}
+
+.swatch:hover {
+  transform: translateY(-2px);
+}
+
+.swatchOn {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 1px var(--accent);
+}
+
+/* the transparent swatch reads as a checker, not a colour */
+.clear {
+  background-image:
+    linear-gradient(45deg, #2a2a2e 25%, transparent 25%),
+    linear-gradient(-45deg, #2a2a2e 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, #2a2a2e 75%),
+    linear-gradient(-45deg, transparent 75%, #2a2a2e 75%);
+  background-size: 8px 8px;
+  background-position:
+    0 0,
+    0 4px,
+    4px -4px,
+    -4px 0;
+  background-color: #17171a;
+}
+
+.tools {
+  display: flex;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.tool {
+  appearance: none;
+  border: 1px solid var(--line);
+  background: transparent;
+  color: var(--text-dim);
+  font: inherit;
+  font-size: 0.58rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 0.5rem 0.85rem;
+  border-radius: 2px;
+  cursor: pointer;
+  transition:
+    color 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.tool:hover {
+  color: var(--text);
+}
+
+.toolOn {
+  color: var(--accent);
+  border-color: var(--line-accent);
+}
+
+.export:hover {
+  color: #14100d;
+  background: var(--accent);
+  border-color: var(--accent);
+}

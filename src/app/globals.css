@@ -239,13 +239,14 @@ a {
    Chronological indicator
 --------------------------------------------------------------- */
 
+/* This is the scrollbar — the native one is hidden — so it runs the
+   height of the window rather than floating in the middle of it. */
 .timeline {
   position: fixed;
   right: clamp(1.5rem, 4vw, 3.25rem);
-  top: 50%;
-  transform: translateY(-50%);
+  top: 7rem;
+  bottom: 7rem;
   z-index: 10;
-  height: 58vh;
   width: 1px;
   font-family: var(--font-geist-mono), ui-monospace, monospace;
 }
@@ -273,8 +274,11 @@ a {
   color: var(--accent);
 }
 
+/* Narrow screens keep the track — it is the only scroll indicator there
+   is now — but lose the month labels, which have nowhere to sit. */
 @media (max-width: 900px) {
-  .timeline {
+  .timeline__cap,
+  .timeline__active {
     display: none;
   }
 }
@@ -305,18 +309,18 @@ a {
 }
 
 .timeline__cap--top {
-  bottom: calc(100% + 1.7rem);
+  bottom: calc(100% + 1.1rem);
 }
 
 .timeline__cap--bottom {
-  top: calc(100% + 1.7rem);
+  top: calc(100% + 1.1rem);
 }
 
 .timeline__arrow {
   position: absolute;
   pointer-events: none;
   right: -0.2rem;
-  top: calc(100% + 2.4rem);
+  top: calc(100% + 2.6rem);
   color: var(--accent-muted);
   font-size: 0.7rem;
 }

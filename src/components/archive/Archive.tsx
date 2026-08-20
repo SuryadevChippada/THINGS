@@ -35,25 +35,41 @@ export function Archive() {
     centresRef.current = Array.from(rows, (el) => listTop + el.offsetTop + el.offsetHeight / 2);
   }, []);
 
+  /**
+   * Where you are, measured in things rather than pixels.
+   *
+   * The marker and its label used to be worked out two different ways —
+   * the marker from raw scroll distance, the label from whichever row was
+   * nearest the middle — so they disagreed with each other on screen.
+   * Both now come from one fractional index into the archive, which is
+   * also what makes dragging the track land on the thing it points at.
+   */
   const handleScroll = useCallback(() => {
     const scroll = window.scrollY;
-    const limit = document.documentElement.scrollHeight - window.innerHeight;
     scrollRef.current = scroll;
-    setProgress(limit > 0 ? Math.min(1, Math.max(0, scroll / limit)) : 0);
 
     const centres = centresRef.current;
-    if (!centres.length) return;
+    if (centres.length < 2) return;
+
     const focus = scroll + window.innerHeight / 2;
-    let best = 0;
-    let bestDist = Infinity;
-    for (let i = 0; i < centres.length; i++) {
-      const dist = Math.abs(centres[i] - focus);
-      if (dist < bestDist) {
-        bestDist = dist;
-        best = i;
+    let frac: number;
+    if (focus <= centres[0]) {
+      frac = 0;
+    } else if (focus >= centres[centres.length - 1]) {
+      frac = centres.length - 1;
+    } else {
+      frac = centres.length - 1;
+      for (let i = 0; i < centres.length - 1; i++) {
+        if (focus <= centres[i + 1]) {
+          const span = centres[i + 1] - centres[i] || 1;
+          frac = i + (focus - centres[i]) / span;
+          break;
+        }
       }
     }
-    setActiveIndex(best);
+
+    setProgress(frac / (centres.length - 1));
+    setActiveIndex(Math.round(frac));
   }, []);
 
   // Lenis scrolls the real window, so a native listener tracks it in both
@@ -180,10 +196,19 @@ export function Archive() {
 
   const activeDate = archive[activeIndex]?.date ?? archive[0].date;
 
+  /** Drag the track to a thing, not to a pixel offset. */
   const scrub = useCallback(
     (p: number) => {
+      const centres = centresRef.current;
+      if (centres.length < 2) return;
+
+      const frac = Math.max(0, Math.min(1, p)) * (centres.length - 1);
+      const i = Math.min(centres.length - 2, Math.floor(frac));
+      const centre = centres[i] + (centres[i + 1] - centres[i]) * (frac - i);
+
       const limit = document.documentElement.scrollHeight - window.innerHeight;
-      const target = p * limit;
+      const target = Math.max(0, Math.min(limit, centre - window.innerHeight / 2));
+
       const lenis = lenisRef.current;
       if (lenis) lenis.scrollTo(target, { immediate: true });
       else window.scrollTo(0, target);

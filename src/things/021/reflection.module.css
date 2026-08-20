@@ -1,0 +1,105 @@
+.stage {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  overflow: auto;
+  padding: 4.5rem 1.5rem 3rem;
+  color: var(--text);
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+}
+
+.panel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.3rem;
+  text-align: center;
+}
+
+/* an old mirror, with a heavy frame */
+.glass {
+  position: relative;
+  padding: 18px;
+  border-radius: 3px;
+  background: linear-gradient(160deg, #33302b, #1d1b19);
+  box-shadow:
+    0 1px 0 rgba(255, 240, 214, 0.09) inset,
+    0 30px 60px -34px rgba(0, 0, 0, 0.95);
+}
+
+.mirror {
+  display: block;
+  width: min(640px, 84vw);
+  aspect-ratio: 4 / 3;
+  height: auto;
+  background: var(--bg-soft);
+  /* mirrors are never quite clean */
+  filter: contrast(0.96) saturate(0.86) brightness(0.97);
+}
+
+.off {
+  position: absolute;
+  inset: 18px;
+  display: grid;
+  place-items: center;
+  font-size: 0.64rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  pointer-events: none;
+}
+
+/* a quiet admission that it is misbehaving */
+.tell {
+  position: absolute;
+  right: 26px;
+  bottom: 26px;
+  font-size: 0.54rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(201, 135, 92, 0.65);
+  pointer-events: none;
+}
+
+.button {
+  appearance: none;
+  border: 1px solid var(--line);
+  background: transparent;
+  color: var(--text-soft);
+  font: inherit;
+  font-size: 0.66rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  padding: 0.7rem 1.6rem;
+  border-radius: 2px;
+  cursor: pointer;
+  transition:
+    color 0.25s ease,
+    background 0.25s ease,
+    border-color 0.25s ease;
+}
+
+.button:hover {
+  color: #14100d;
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+.note {
+  margin: 0;
+  font-size: 0.6rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  max-width: 26rem;
+  line-height: 1.9;
+}
+
+.error {
+  color: var(--accent);
+}
+
+.hidden {
+  display: none;
+}
