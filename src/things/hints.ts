@@ -12,4 +12,6 @@ export const hints: Record<string, string> = {
   "033": "click to cast, click again to strike",
   "038": "WASD + mouse",
   "039": "drag to draw a note",
+  "042": "WASD + mouse",
+  "045": "tap to plant · drag to turn",
 };
