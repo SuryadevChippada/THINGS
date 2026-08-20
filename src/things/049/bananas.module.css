@@ -1,0 +1,88 @@
+.stage {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+}
+
+.canvas {
+  display: block;
+  cursor: grab;
+  touch-action: none;
+}
+
+.canvas:active {
+  cursor: grabbing;
+}
+
+.controls {
+  position: fixed;
+  bottom: clamp(1rem, 3vw, 1.75rem);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 0.65rem 0.9rem;
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  background: rgba(13, 13, 13, 0.78);
+  backdrop-filter: blur(6px);
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+}
+
+.button {
+  appearance: none;
+  border: 1px solid var(--line);
+  background: transparent;
+  color: var(--text-soft);
+  font: inherit;
+  font-size: 0.56rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 0.45rem 0.8rem;
+  border-radius: 2px;
+  cursor: pointer;
+}
+
+.button:hover:not(:disabled) {
+  color: var(--accent);
+  border-color: var(--line-accent);
+}
+
+.button:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.row {
+  display: flex;
+  gap: 0.25rem;
+}
+
+.chip {
+  appearance: none;
+  border: 1px solid var(--line);
+  background: transparent;
+  color: var(--text-dim);
+  font: inherit;
+  font-size: 0.6rem;
+  padding: 0.4rem 0.6rem;
+  border-radius: 2px;
+  cursor: pointer;
+}
+
+.chipOn {
+  color: var(--accent);
+  border-color: var(--line-accent);
+}
+
+.count {
+  font-size: 0.56rem;
+  letter-spacing: 0.14em;
+  color: var(--text-dim);
+  min-width: 1.6rem;
+  text-align: center;
+}

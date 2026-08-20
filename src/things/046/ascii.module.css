@@ -1,0 +1,106 @@
+.stage {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.2rem;
+  padding: 4rem 1rem 1.5rem;
+  overflow: hidden;
+}
+
+.art {
+  margin: 0;
+  flex: 1;
+  display: grid;
+  place-content: center;
+  font-family: ui-monospace, monospace;
+  line-height: 1;
+  letter-spacing: 0;
+  color: var(--text);
+  white-space: pre;
+  user-select: all;
+}
+
+.controls {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+}
+
+.row {
+  display: flex;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}
+
+.button {
+  appearance: none;
+  border: 1px solid var(--line);
+  background: transparent;
+  color: var(--text-soft);
+  font: inherit;
+  font-size: 0.6rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  padding: 0.55rem 1rem;
+  border-radius: 2px;
+  cursor: pointer;
+}
+
+.button:hover {
+  color: #14100d;
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+.chip {
+  appearance: none;
+  border: 1px solid var(--line);
+  background: transparent;
+  color: var(--text-dim);
+  font: inherit;
+  font-size: 0.54rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 0.38rem 0.75rem;
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+.chipOn {
+  color: var(--accent);
+  border-color: var(--line-accent);
+}
+
+.slider {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.5rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+
+.slider input {
+  accent-color: var(--accent);
+  width: 110px;
+}
+
+.note {
+  margin: 0;
+  font-size: 0.58rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.hidden {
+  display: none;
+}
