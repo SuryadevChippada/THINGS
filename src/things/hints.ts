@@ -16,4 +16,6 @@ export const hints: Record<string, string> = {
   "045": "tap to plant · drag to turn",
   "048": "just type",
   "049": "double-click to drop one",
+  "051": "WASD + mouse",
+  "052": "brush over the photo",
 };

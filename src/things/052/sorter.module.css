@@ -1,0 +1,116 @@
+.stage {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  overflow: auto;
+  padding: 4.5rem 1.5rem 3rem;
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+}
+
+.panel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.2rem;
+}
+
+.sheet {
+  display: grid;
+  place-items: center;
+  min-width: min(420px, 84vw);
+  min-height: 220px;
+  background: var(--bg-soft);
+  border: 1px solid var(--line);
+  box-shadow: 0 24px 50px -30px rgba(0, 0, 0, 0.9);
+}
+
+.image {
+  display: block;
+  max-width: min(900px, 88vw);
+  height: auto;
+  cursor: crosshair;
+  touch-action: none;
+}
+
+.empty {
+  padding: 3.5rem 2rem;
+  margin: 0;
+  font-size: 0.66rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+
+.controls {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.7rem;
+}
+
+.row {
+  display: flex;
+  gap: 0.45rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}
+
+.chip {
+  appearance: none;
+  border: 1px solid var(--line);
+  background: transparent;
+  color: var(--text-dim);
+  font: inherit;
+  font-size: 0.54rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 0.4rem 0.8rem;
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+.chipOn {
+  color: var(--accent);
+  border-color: var(--line-accent);
+}
+
+.button {
+  appearance: none;
+  border: 1px solid var(--line);
+  background: transparent;
+  color: var(--text-soft);
+  font: inherit;
+  font-size: 0.58rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  padding: 0.55rem 1rem;
+  border-radius: 2px;
+  cursor: pointer;
+}
+
+.button:hover {
+  color: #14100d;
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+.slider {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.5rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+
+.slider input {
+  accent-color: var(--accent);
+  width: 120px;
+}
+
+.hidden {
+  display: none;
+}

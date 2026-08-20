@@ -74,11 +74,11 @@ export const things: Thing[] = [
   { id: "048", title: "typewriter",              date: "2026-06-19", category: "tool",          scale: "medium", status: "complete" },
   { id: "049", title: "banana physics",          date: "2026-06-23", category: "physics",       scale: "small",  status: "complete" },
   { id: "050", title: "slow camera",             date: "2026-07-08", category: "camera",        scale: "small",  status: "complete" },
-  { id: "051", title: "museum of one object",    date: "2026-07-12", category: "3d",            scale: "large",  status: "planned"  },
-  { id: "052", title: "pixel sorter",            date: "2026-07-27", category: "image art",     scale: "medium", status: "planned"  },
-  { id: "053", title: "don't wake him",          date: "2026-07-30", category: "interaction",   scale: "small",  status: "planned"  },
-  { id: "054", title: "contact sheet",           date: "2026-08-06", category: "photography",   scale: "medium", status: "planned"  },
-  { id: "055", title: "one minute universe",     date: "2026-08-19", category: "simulation",    scale: "large",  status: "planned"  },
+  { id: "051", title: "museum of one object",    date: "2026-07-12", category: "3d",            scale: "large",  status: "complete" },
+  { id: "052", title: "pixel sorter",            date: "2026-07-27", category: "image art",     scale: "medium", status: "complete" },
+  { id: "053", title: "don't wake him",          date: "2026-07-30", category: "interaction",   scale: "small",  status: "complete" },
+  { id: "054", title: "contact sheet",           date: "2026-08-06", category: "photography",   scale: "medium", status: "complete" },
+  { id: "055", title: "one minute universe",     date: "2026-08-19", category: "simulation",    scale: "large",  status: "complete" },
 ];
 
 /** Newest first — visitors meet the newest work at the top. */

@@ -1,0 +1,100 @@
+.stage {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  background: #08080b;
+}
+
+.canvas {
+  display: block;
+}
+
+.create {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  appearance: none;
+  border: 1px solid var(--line);
+  background: transparent;
+  color: var(--text-soft);
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  padding: 1rem 2.2rem;
+  border-radius: 2px;
+  cursor: pointer;
+  transition:
+    color 0.35s ease,
+    border-color 0.35s ease,
+    letter-spacing 0.35s ease;
+}
+
+.create:hover {
+  color: var(--accent);
+  border-color: var(--line-accent);
+  letter-spacing: 0.32em;
+}
+
+.era {
+  position: fixed;
+  bottom: clamp(2.5rem, 8vh, 4rem);
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.18em;
+  text-transform: lowercase;
+  color: var(--text-soft);
+  pointer-events: none;
+  text-align: center;
+  width: min(30rem, 88vw);
+  animation: era 1.2s ease-out;
+}
+
+@keyframes era {
+  from {
+    opacity: 0;
+    transform: translate(-50%, 6px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+
+.clock {
+  position: fixed;
+  top: clamp(1.25rem, 3vw, 2rem);
+  right: clamp(1.25rem, 3vw, 2rem);
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.16em;
+  color: var(--text-dim);
+  font-variant-numeric: tabular-nums;
+  pointer-events: none;
+}
+
+.end {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: 1.8rem;
+}
+
+.end .create {
+  position: static;
+  transform: none;
+}
+
+.epitaph {
+  margin: 0;
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.22em;
+  text-transform: lowercase;
+  color: var(--text-dim);
+}
