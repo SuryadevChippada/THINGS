@@ -1,0 +1,144 @@
+.stage {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  overflow: auto;
+  padding: 4.5rem 1.5rem 3rem;
+  color: var(--text);
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+}
+
+.panel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.1rem;
+  text-align: center;
+}
+
+.booth {
+  position: relative;
+  width: min(300px, 70vw);
+  aspect-ratio: 35 / 45;
+  overflow: hidden;
+  background: var(--bg-soft);
+  border-radius: 2px;
+  box-shadow:
+    0 0 0 1px var(--line),
+    0 26px 52px -30px rgba(0, 0, 0, 0.95);
+}
+
+.preview {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.guides {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.oval {
+  position: absolute;
+  left: 50%;
+  top: 46%;
+  transform: translate(-50%, -50%);
+  width: 58%;
+  height: 66%;
+  border: 1px dashed rgba(201, 135, 92, 0.6);
+  border-radius: 50%;
+}
+
+.rule {
+  position: absolute;
+  left: 8%;
+  right: 8%;
+  height: 1px;
+  background: rgba(201, 135, 92, 0.45);
+}
+
+.ruleTop {
+  top: 30%;
+}
+
+.ruleBottom {
+  top: 40%;
+}
+
+.count {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-size: clamp(3rem, 14vw, 5rem);
+  color: #f5efe3;
+  text-shadow: 0 4px 26px rgba(0, 0, 0, 0.7);
+}
+
+.off {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-size: 0.6rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+
+.sheet {
+  display: block;
+  width: min(720px, 88vw);
+  height: auto;
+  border-radius: 2px;
+  box-shadow: 0 26px 52px -30px rgba(0, 0, 0, 0.95);
+}
+
+.row {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.button {
+  appearance: none;
+  border: 1px solid var(--line);
+  background: transparent;
+  color: var(--text-soft);
+  font: inherit;
+  font-size: 0.64rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  padding: 0.65rem 1.3rem;
+  border-radius: 2px;
+  cursor: pointer;
+}
+
+.button:hover {
+  color: #14100d;
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+.note {
+  margin: 0;
+  font-size: 0.58rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  max-width: 24rem;
+  line-height: 1.9;
+}
+
+.error {
+  color: var(--accent);
+}
+
+.hidden {
+  display: none;
+}

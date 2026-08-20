@@ -1,0 +1,108 @@
+.stage {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  overflow: auto;
+  padding: 4.5rem 1.5rem 3rem;
+  color: var(--text);
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+}
+
+.panel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.1rem;
+  text-align: center;
+}
+
+.body {
+  position: relative;
+  padding: 16px;
+  border-radius: 10px;
+  background: linear-gradient(180deg, #2e3238, #1a1c1f);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.07) inset,
+    0 26px 52px -30px rgba(0, 0, 0, 0.95);
+}
+
+.screen {
+  display: block;
+  width: min(600px, 84vw);
+  aspect-ratio: 4 / 3;
+  height: auto;
+  border-radius: 3px;
+  background: #0b0c0d;
+  object-fit: cover;
+}
+
+.off {
+  position: absolute;
+  inset: 16px;
+  display: grid;
+  place-items: center;
+  font-size: 0.62rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #5a5e64;
+  pointer-events: none;
+}
+
+.row {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.button {
+  appearance: none;
+  border: 1px solid var(--line);
+  background: transparent;
+  color: var(--text-soft);
+  font: inherit;
+  font-size: 0.64rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  padding: 0.62rem 1.2rem;
+  border-radius: 2px;
+  cursor: pointer;
+}
+
+.button:hover {
+  color: #14100d;
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+.slider {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  font-size: 0.54rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+
+.slider input {
+  accent-color: var(--accent);
+  width: min(180px, 46vw);
+}
+
+.note {
+  margin: 0;
+  font-size: 0.6rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+
+.error {
+  color: var(--accent);
+}
+
+.hidden {
+  display: none;
+}

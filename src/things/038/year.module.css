@@ -1,0 +1,49 @@
+.stage {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.stage canvas {
+  display: block;
+}
+
+.label {
+  position: fixed;
+  bottom: clamp(3.5rem, 9vh, 5rem);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 20;
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.16em;
+  color: var(--text);
+  pointer-events: none;
+  animation: rise 0.4s ease-out;
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translate(-50%, 5px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+
+.prompt {
+  position: fixed;
+  bottom: clamp(1.5rem, 4vw, 2.5rem);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 20;
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  pointer-events: none;
+}

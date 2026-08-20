@@ -10,4 +10,6 @@ export const hints: Record<string, string> = {
   "030": "drag to shake",
   "031": "drag the logs",
   "033": "click to cast, click again to strike",
+  "038": "WASD + mouse",
+  "039": "drag to draw a note",
 };
