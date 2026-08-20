@@ -1,0 +1,144 @@
+.stage {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.sky {
+  position: relative;
+  flex: 1;
+  cursor: crosshair;
+  background:
+    radial-gradient(90% 70% at 30% 20%, rgba(60, 74, 96, 0.22), transparent 70%),
+    #0a0b0f;
+  overflow: hidden;
+}
+
+.plot {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.link {
+  stroke: rgba(201, 135, 92, 0.5);
+  stroke-width: 1;
+}
+
+.star {
+  fill: #f4f1ea;
+  filter: drop-shadow(0 0 6px rgba(240, 238, 232, 0.7));
+}
+
+.starOn {
+  fill: var(--accent-hover);
+}
+
+.halo {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 1;
+  stroke-dasharray: 3 4;
+}
+
+.hint,
+.name {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  margin: 0;
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  pointer-events: none;
+}
+
+.hint {
+  top: 50%;
+  font-size: 0.62rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+
+.name {
+  bottom: 1.5rem;
+  font-size: 0.8rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--text-soft);
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.8rem;
+  flex-wrap: wrap;
+  padding: 0.9rem 1rem;
+  border-top: 1px solid var(--line);
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+}
+
+.row {
+  display: flex;
+  gap: 0.4rem;
+}
+
+.chip {
+  appearance: none;
+  border: 1px solid var(--line);
+  background: transparent;
+  color: var(--text-dim);
+  font: inherit;
+  font-size: 0.58rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 0.5rem 0.85rem;
+  border-radius: 2px;
+  cursor: pointer;
+}
+
+.chip:hover:not(:disabled) {
+  color: var(--text);
+}
+
+.chip:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.chipOn {
+  color: var(--accent);
+  border-color: var(--line-accent);
+}
+
+.input {
+  appearance: none;
+  border: 0;
+  border-bottom: 1px solid var(--line);
+  background: transparent;
+  color: var(--text);
+  font: inherit;
+  font-size: 0.72rem;
+  letter-spacing: 0.16em;
+  text-align: center;
+  padding: 0.35rem 0.5rem;
+  width: 12rem;
+  outline: none;
+}
+
+.input::placeholder {
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  font-size: 0.6rem;
+}
+
+.input:focus {
+  border-bottom-color: var(--line-accent);
+}
+
+.hidden {
+  display: none;
+}

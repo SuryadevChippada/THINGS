@@ -1,0 +1,49 @@
+.stage {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+}
+
+.scene {
+  position: absolute;
+  inset: 0;
+}
+
+/* the paper ticket in your hand */
+.ticket {
+  position: fixed;
+  right: clamp(1.25rem, 4vw, 2.5rem);
+  bottom: clamp(1.25rem, 4vw, 2.5rem);
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.2rem;
+  padding: 0.85rem 1.4rem;
+  background: #efe9dc;
+  color: #2c2a27;
+  border-radius: 2px;
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  transform: rotate(-2.5deg);
+  box-shadow: 0 14px 30px -18px rgba(0, 0, 0, 0.9);
+  pointer-events: none;
+}
+
+.ticketLabel {
+  font-size: 0.46rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: #6f6a61;
+}
+
+.ticketNumber {
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.ticketTime {
+  font-size: 0.5rem;
+  letter-spacing: 0.16em;
+  color: #6f6a61;
+}
